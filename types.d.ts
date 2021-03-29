@@ -9,16 +9,16 @@ export interface Statement {
   transactions: Transaction[];
 }
 
-export interface Balance {
-  amount: number;
-  currency_iso: CurrencyISO;
-}
-
 export interface Provider {
   title: string;
   account_number: string;
   sort_code: string;
   description: string;
+}
+
+export interface Balance {
+  amount: number;
+  currency_iso: CurrencyISO;
 }
 
 export interface Transaction {
