@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Paragraph = styled.p`
-font-family: ${(props) => props.theme.font};
+  color: ${(props) => props.theme.secondaryColor};
+  font-family: ${(props) => props.theme.font};
 `;
 
 export default Paragraph;

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-const PrimaryHeading = styled.h1`
-  color: ${(props) => props.theme.primaryColor};
+const TertiaryHeading = styled.h2`
+  color: ${(props) => props.theme.secondaryColor};
   font-family: ${(props) => props.theme.font};
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: 0;
 
   @media screen and (min-width: ${(props) => props.theme.breakpoints.medium}) {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 `;
 
-export default PrimaryHeading;
+export default TertiaryHeading;

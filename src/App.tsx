@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProvider } from "styled-components";
 
 import BalanceInformation from "./components/BalanceInformation";
+import Container from "./elements/Container";
+import HeaderSection from "./elements/HeaderSection";
 import Paragraph from "./elements/Paragraph";
 import ProviderDetails from "./components/ProviderDetails";
+import SecondaryHeading from "./elements/SecondaryHeading";
 import { Statement } from "../types";
+import { ThemeProvider } from "styled-components";
 import TransactionDetails from "./components/TransactionDetails";
 import Wrapper from "./elements/Wrapper";
 import { fetchData } from "./services/fetch-data-service";
@@ -33,23 +36,31 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <Wrapper>
       {loading && <h1>Loading</h1>}
 
       {data && (
         <ThemeProvider theme={theme}>
-          <Wrapper>
-            <ProviderDetails
-              account_number={data.provider.account_number}
-              description={data.provider.description}
-              sort_code={data.provider.sort_code}
-              title={data.provider.title}
-            />
+          <Container>
+            <HeaderSection>
+              <ProviderDetails
+                account_number={data.provider.account_number}
+                description={data.provider.description}
+                sort_code={data.provider.sort_code}
+                title={data.provider.title}
+              />
 
-            <BalanceInformation
-              amount={data.balance.amount}
-              currency_iso={data.balance.currency_iso}
-            />
+              <BalanceInformation
+                amount={data.balance.amount}
+                currency_iso={data.balance.currency_iso}
+              />
+            </HeaderSection>
+
+            <SecondaryHeading>Transactions</SecondaryHeading>
+
+            {data.transactions.length === 0 ?? (
+              <Paragraph>No transactions found</Paragraph>
+            )}
 
             {data.transactions.map((transaction) => {
               return (
@@ -62,7 +73,7 @@ const App: React.FC = () => {
                 />
               );
             })}
-          </Wrapper>
+          </Container>
         </ThemeProvider>
       )}
 
@@ -72,7 +83,7 @@ const App: React.FC = () => {
           <p>{error}</p>
         </>
       )}
-    </div>
+    </Wrapper>
   );
 };
 
