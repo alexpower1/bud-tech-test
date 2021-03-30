@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 
+import BalanceInformation from "./components/BalanceInformation";
+import Paragraph from "./elements/Paragraph";
+import ProviderDetails from "./components/ProviderDetails";
 import { Statement } from "../types";
+import TransactionDetails from "./components/TransactionDetails";
+import Wrapper from "./elements/Wrapper";
 import { fetchData } from "./services/fetch-data-service";
 import theme from "./theme";
 
@@ -27,19 +32,6 @@ const App: React.FC = () => {
     fetchBankStatementData();
   }, []);
 
-  const Wrapper = styled.div`
-    margin: 0 auto;
-    max-width: 1200px;
-  `;
-
-  const PrimaryHeading = styled.h1`
-    font-family: ${(props) => props.theme.font};
-  `;
-
-  const TextDetail = styled.p`
-    font-family: ${(props) => props.theme.font};
-  `;
-
   return (
     <div>
       {loading && <h1>Loading</h1>}
@@ -47,33 +39,27 @@ const App: React.FC = () => {
       {data && (
         <ThemeProvider theme={theme}>
           <Wrapper>
-            <div>
-              <PrimaryHeading>
-                Hello, welcome to {data.provider.title}
-              </PrimaryHeading>
-              <TextDetail>
-                Account Number: {data.provider.account_number}
-              </TextDetail>
-              <TextDetail>Sort Code: {data.provider.sort_code}</TextDetail>
-              <TextDetail>{data.provider.description}</TextDetail>
-            </div>
+            <ProviderDetails
+              account_number={data.provider.account_number}
+              description={data.provider.description}
+              sort_code={data.provider.sort_code}
+              title={data.provider.title}
+            />
 
-            <div>
-              <TextDetail>
-                Balance: {data.balance.currency_iso} {data.balance.amount}
-              </TextDetail>
-            </div>
+            <BalanceInformation
+              amount={data.balance.amount}
+              currency_iso={data.balance.currency_iso}
+            />
 
             {data.transactions.map((transaction) => {
               return (
-                <div key={transaction.id}>
-                  <TextDetail>{transaction.date}</TextDetail>
-                  <TextDetail>{transaction.description}</TextDetail>
-                  <TextDetail>{transaction.category_title}</TextDetail>
-                  <TextDetail>
-                    {transaction.amount.currency_iso} {transaction.amount.value}
-                  </TextDetail>
-                </div>
+                <TransactionDetails
+                  category_title={transaction.category_title}
+                  date={transaction.date}
+                  description={transaction.description}
+                  id={transaction.id}
+                  amount={transaction.amount}
+                />
               );
             })}
           </Wrapper>
