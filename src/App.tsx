@@ -4,13 +4,14 @@ import BalanceInformation from "./components/BalanceInformation";
 import Container from "./elements/Container";
 import HeaderSection from "./elements/HeaderSection";
 import Paragraph from "./elements/Paragraph";
+import PrimaryHeading from "./elements/PrimaryHeading";
 import ProviderDetails from "./components/ProviderDetails";
 import SecondaryHeading from "./elements/SecondaryHeading";
 import { Statement } from "../types";
 import { ThemeProvider } from "styled-components";
 import TransactionDetails from "./components/TransactionDetails";
 import Wrapper from "./elements/Wrapper";
-import { fetchData } from "./services/fetch-data-service";
+import { fetchStatement } from "./services/statementService";
 import theme from "./theme";
 
 const App: React.FC = () => {
@@ -20,8 +21,11 @@ const App: React.FC = () => {
 
   const fetchBankStatementData = () => {
     setLoading(false);
-    fetchData()
+    fetchStatement()
       .then((data) => {
+        data.transactions.sort((a, b) =>
+          a.amount.value < b.amount.value ? 1 : -1
+        );
         setData(data);
         setLoading(false);
       })
@@ -62,7 +66,7 @@ const App: React.FC = () => {
               <Paragraph>No transactions found</Paragraph>
             )}
 
-            {data.transactions.map((transaction) => {
+            {data.transactions.slice(0, 10).map((transaction) => {
               return (
                 <TransactionDetails
                   category_title={transaction.category_title}
@@ -79,8 +83,8 @@ const App: React.FC = () => {
 
       {error && (
         <>
-          <h1>Error</h1>
-          <p>{error}</p>
+          <PrimaryHeading>Oops, something went wrong</PrimaryHeading>
+          <Paragraph>{error}</Paragraph>
         </>
       )}
     </Wrapper>
