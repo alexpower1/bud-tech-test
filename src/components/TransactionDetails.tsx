@@ -13,16 +13,17 @@ const TransactionDetails: React.FC<Transaction> = ({
   amount,
 }) => {
   return (
-    <FlexCard key={id}>
+    <FlexCard>
       <TransactionImage
         color={Math.floor(Math.random() * 16777215).toString(16)}
       />
       <div>
         <TertiaryHeading>{description}</TertiaryHeading>
-        <Paragraph>{category_title}</Paragraph>
-        <Paragraph>{date}</Paragraph>
+        <Paragraph>Category: {category_title}</Paragraph>
+        <Paragraph>Date: {date}</Paragraph>
         <Paragraph>
-          {amount.currency_iso} {amount.value}
+          {amount.currency_iso}{" "}
+          <span data-testid="transaction-value">{amount.value}</span>
         </Paragraph>
       </div>
     </FlexCard>

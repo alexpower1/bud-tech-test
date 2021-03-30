@@ -26,6 +26,7 @@ const App: React.FC = () => {
         data.transactions.sort((a, b) =>
           a.amount.value < b.amount.value ? 1 : -1
         );
+
         setData(data);
         setLoading(false);
       })
@@ -69,6 +70,7 @@ const App: React.FC = () => {
             {data.transactions.slice(0, 10).map((transaction) => {
               return (
                 <TransactionDetails
+                  key={transaction.id}
                   category_title={transaction.category_title}
                   date={transaction.date}
                   description={transaction.description}
